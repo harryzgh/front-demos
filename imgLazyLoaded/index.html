@@ -1,0 +1,191 @@
+<!DOCTYPE >
+<html>
+  <head>
+    <script defer>
+      /**
+       * 节流
+       * @param {*} fn
+       * @param {*} delay
+       * @returns
+       */
+      function throttle(fn, delay) {
+        let timeout = null
+        return function () {
+          if (timeout) return
+          timeout = setTimeout(() => {
+            fn.apply(this, arguments)
+            timeout = null
+          }, delay)
+        }
+      }
+
+      function setImg(imgDom) {
+        imgDom.src = imgDom.dataset.src
+        imgDom.classList.remove("lazy-load")
+      }
+      function lazyload(lazyloadImages) {
+        lazyloadImages.forEach(function (image) {
+          if (image.offsetTop < window.innerHeight + window.scrollY) {
+            setImg(image)
+          }
+        })
+        if (lazyloadImages.length == 0) {
+          document.removeEventListener("scroll", lazyload)
+          window.removeEventListener("resize", lazyload)
+          window.removeEventListener("orientationChange", lazyload)
+        }
+      }
+      /**
+       * 图片懒加载，兼容不同浏览器
+       */
+      window.onload = function () {
+        const lazyloadImages = document.querySelectorAll("img.lazy-load")
+        if (!("IntersectionObserver" in window)) {
+          const imageObserver = new IntersectionObserver(function (
+            entries,
+            observer
+          ) {
+            entries.forEach(function (entry) {
+              // 如果当前监测的图片进入视口
+              if (entry.isIntersecting) {
+                const image = entry.target
+                setImg(image)
+                // 解除当前图片的监测
+                imageObserver.unobserve(image)
+              }
+            })
+          })
+          // 对所有图片进行监测
+          lazyloadImages.forEach(function (image) {
+            imageObserver.observe(image)
+          })
+        } else {
+          lazyload(lazyloadImages)
+          document.addEventListener(
+            "scroll",
+            throttle(() => lazyload(lazyloadImages), 1000)
+          )
+          window.addEventListener(
+            "resize",
+            throttle(() => lazyload(lazyloadImages), 5000)
+          )
+          window.addEventListener(
+            "orientationChange",
+            throttle(() => lazyload(lazyloadImages), 5000)
+          )
+        }
+      }
+    </script>
+    <style>
+      img {
+        min-width: 1000px;
+        min-height: 900px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b446b015652.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b445921bdfe.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b443ac90165.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b4430138464.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b441f616f18.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b446b015652.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b445921bdfe.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b443ac90165.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b4430138464.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b441f616f18.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b446b015652.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b445921bdfe.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b443ac90165.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b4430138464.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b441f616f18.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b446b015652.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b445921bdfe.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b443ac90165.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b4430138464.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b441f616f18.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b446b015652.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b445921bdfe.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b443ac90165.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b4430138464.jpg"
+      />
+      <img
+        class="lazy-load"
+        data-src="https://img.dpm.org.cn/Uploads/Picture/2021/05/31/s60b441f616f18.jpg"
+      />
+    </div>
+  </body>
+</html>
